@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stored Image Descriptions</title>
+  </head>
+  <body>
+    <h1>Stored Image Descriptions</h1>
+    <table>
+      <tr>
+        <th>Image Name</th>
+        <th>Description</th>
+      </tr>
+      {% for image_name, description in descriptions.items() %}
+      <tr>
+        <td>{{ image_name }}</td>
+        <td>{{ description }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

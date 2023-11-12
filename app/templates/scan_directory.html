@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scan Directory</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1 id="processingHeader">Image Processing</h1>
+    <div id="loader" style="display: none">Processing...</div>
+    <table id="results">
+      <tr>
+        <th>Image Name</th>
+        <th>Description</th>
+      </tr>
+      <!-- Rows will be added here dynamically -->
+    </table>
+
+    <script>
+      var imagesToProcess = []; // List of images to process
+      var currentIndex = 0;
+
+      function updateHeader() {
+        if (imagesToProcess.length > 0) {
+          $("#processingHeader").text(
+            "Image Processing (" + (currentIndex + 1) + "/" + imagesToProcess.length + ")"
+          );
+        } else {
+          $("#processingHeader").text("Image Processing");
+        }
+      }
+
+      function processNextImage() {
+        if (currentIndex >= imagesToProcess.length) {
+          $("#loader").hide();
+          $("#processingHeader").text("Image Processing - Completed");
+          return;
+        }
+        updateHeader();
+        $("#loader").show();
+        $.ajax({
+          url: "/process-image", // Endpoint to process one image
+          data: { image_path: imagesToProcess[currentIndex] },
+          success: function (response) {
+            if (response.description) {
+              $("#results").append(
+                "<tr><td>" + response.image_name + "</td><td>" + response.description + "</td></tr>"
+              );
+            }
+            currentIndex++;
+            $("#loader").hide();
+            processNextImage(); // Process the next image
+          },
+        });
+      }
+
+      $(document).ready(function () {
+        $.get("/get-image-list", function (response) {
+          imagesToProcess = response.images;
+          updateHeader();
+          processNextImage();
+        });
+      });
+    </script>
+  </body>
+</html>
