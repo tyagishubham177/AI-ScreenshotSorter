@@ -36,14 +36,15 @@ def get_image_description(api_key, image_path):
         return f"An error occurred: {e}"
 
 
-def chat_with_openai(api_key, message, instructions=None):
+def chat_with_openai(api_key, message, instructions=None, model="gpt-3.5-turbo"):
     openai.api_key = api_key
 
-    if instructions is None:
+    # Check for null or empty instructions and use default if necessary
+    if not instructions:
         instructions = "You're a helpful assistant, adhere strictly to the prompt. Be exact in your answer."
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model=model,
         messages=[
             {"role": "system", "content": instructions},
             {"role": "user", "content": message}

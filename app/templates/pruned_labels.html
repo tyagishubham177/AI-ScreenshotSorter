@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pruned Labels</title>
+    <style>
+      .label-container {
+        display: flex;
+        justify-content: space-around;
+      }
+      .label-list {
+        list-style-type: none; /* Remove bullets */
+        padding: 0;
+        max-height: 300px; /* Adjust height as needed */
+        overflow-y: scroll; /* Add scroll view */
+      }
+      .label-list li {
+        counter-increment: label-counter;
+      }
+      .label-list li::before {
+        content: counter(label-counter) ". ";
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Label Pruning</h1>
+    <div class="label-container">
+      <div>
+        <h2>Old Labels</h2>
+        <ol class="label-list">
+          {% for label in old_labels %}
+          <li>{{ label }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div>
+        <h2>New (Pruned) Labels</h2>
+        <ol class="label-list">
+          {% for label in new_labels %}
+          <li>{{ label }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </body>
+</html>

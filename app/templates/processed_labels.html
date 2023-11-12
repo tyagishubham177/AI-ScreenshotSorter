@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Processed Labels</title>
+  </head>
+  <body>
+    <h1>Processed Labels</h1>
+    <table>
+      <tr>
+        <th>Image Name</th>
+        <th>Labels</th>
+      </tr>
+      {% for image_name, labels in image_labels_map.items() %}
+      <tr>
+        <td>{{ image_name }}</td>
+        <td>{{ labels | join(', ') }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
